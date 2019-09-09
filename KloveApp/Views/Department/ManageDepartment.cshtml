@@ -1,0 +1,39 @@
+﻿@model KloveApp.Models.ManageDepartmentModel
+<div class="container">
+    <h2>@Model.DepartmentName</h2>
+    <a href="@Url.Action("Index")">Back to Departments</a>
+    <div class="row" style="padding-top: 20px;">
+    @if (Model.ExternalEmployees.Count > 0)
+    {
+        <form action="@Url.Action("AddEmployee")">
+            <select name="empId">
+                @foreach (var item in Model.ExternalEmployees)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+            <input type="hidden" value="@Model.DepartmentId" name="deptId"/>
+            <input type="submit" value="Add Employee" class="btn btn-primary"/>
+        </form>
+    }
+    else
+    {
+        <p>There are no employees left to add.</p>
+    }
+    </div>
+    <div>
+        <table>
+            @foreach (var item in Model.InternalEmployees)
+            {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        <a href="@Url.Action("RemoveEmployee", new {deptId = Model.DepartmentId, empId = item.Id})">Remove</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
